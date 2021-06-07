@@ -33,5 +33,7 @@ module blinds(
     wire   out;
          
       //Todo: add you logic here
+	assign out = func[{a,b}];
+	// Feels like [{a,b}] is equivalent to [a<<1 + b] and [a*2+b]
 
 endmodule
