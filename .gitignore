@@ -19,5 +19,6 @@ vivado*.*
 #other file formats
 *.pdf
 *.aux
-
+*.xpr
+*.wcfg
 

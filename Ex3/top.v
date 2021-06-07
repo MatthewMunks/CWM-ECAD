@@ -37,14 +37,14 @@ module monitor (clk, rst, change, on_off, counter_out);
 
     //Todo: add user logic
     always @(posedge clk or posedge rst) begin
-	   if (rst)
-	       counter_out <= 0;
-	   else if (change) begin
-	       if(on_off)
-	           counter_out <= counter_out - 1;
-    	   else
-	          counter_out <= counter_out + 1;	      
-	   end  
+	    if (rst)
+	        counter_out <= 0;
+	    else if (change) begin
+	        if(on_off)
+	            counter_out <= counter_out - 1;
+    	    else
+	            counter_out <= counter_out + 1;	      
+	    end  
     end
     
 //    assign counter_out = couter_current_state;
