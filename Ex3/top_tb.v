@@ -88,10 +88,6 @@ module top_tb(
     end
     
     always @(posedge counter_out[0]) begin
-//        if (previous_counter_out != counter_out + 1)
-//            err = 1;
-//        previous_counter_out = counter_out;#
-        //Note that this has to be on posedge for odd STOP_COUNTING_AT
         if (counter_out == STOP_COUNTING_AT) begin
             change = 0;
             #50
@@ -104,11 +100,6 @@ module top_tb(
                 
         end
     end 
-    
-//    always @(posedge counter_out[0]) begin
-//        if (previous_counter_out != counter_out + 1)
-//            err = 1;    
-//    end
        
     
 //Todo: Finish test, check for success
@@ -119,7 +110,7 @@ module top_tb(
             $display("***TEST FAILED! When change is 0, it keeps changing!***");
         end
         if (err==0)
-          $display("***TEST PASSED! :) ***");
+            $display("***TEST PASSED! :) ***");
         $finish;
       end
 
