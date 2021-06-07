@@ -103,7 +103,7 @@ module top_tb(
        
     
 //Todo: Finish test, check for success
-      initial begin
+    initial begin
         #5500
         if (counter_out != STOP_COUNTING_AT) begin
             err = 1;
@@ -112,7 +112,7 @@ module top_tb(
         if (err==0)
             $display("***TEST PASSED! :) ***");
         $finish;
-      end
+    end
 
 //Todo: Instantiate counter module
     monitor top (

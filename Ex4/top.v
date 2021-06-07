@@ -30,7 +30,6 @@ module dynamicLighting (rst, clk, button, colour);
     end
 
     always @(posedge clk or posedge rst) begin
-
         
         if (button == 1) begin
             colour <= colour + 1;            
@@ -45,7 +44,6 @@ module dynamicLighting (rst, clk, button, colour);
         if (rst == 1) begin
             colour = {001};
         end
-
         
     end
 
