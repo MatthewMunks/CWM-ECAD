@@ -25,15 +25,17 @@ module dynamicLighting (rst, clk, button, colour);
     input button;
     output reg [2:0] colour;
 
+    //Assumed initial position. (Doesn't really matter but there it is.)
     initial begin
         colour = {001};
     end
 
     always @(posedge clk or posedge rst) begin
         
+        //The operation that's essentially being performed in the diagram is that of incrementation with a little bit of funny stuff on the side!
         if (button == 1) begin
             colour <= colour + 1;            
-        end 
+        end //else colour doesn't change
         
         //Deals with the overflow into {111} as well as starting in the wrong state.
         if (colour == {000} || colour == {111}) begin
