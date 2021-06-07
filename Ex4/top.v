@@ -16,3 +16,37 @@
 //  You need to write the whole file.
 //////////////////////////////////////////////////////////////////////////////////
 
+`timescale 1ns / 100ps
+
+module dynamicLighting (rst, clk, button, colour);
+
+    input rst;
+    input clk;
+    input button;
+    output reg [2:0] colour;
+
+    initial begin
+        colour = {001};
+    end
+
+    always @(posedge clk or posedge rst) begin
+
+        
+        if (button == 1) begin
+            colour <= colour + 1;            
+        end 
+        
+        //Deals with the overflow into {111} as well as starting in the wrong state.
+        if (colour == {000} || colour == {111}) begin
+            colour = {001};
+        end
+
+        //This is an assumption about operational parameters but it feels logical
+        if (rst == 1) begin
+            colour = {001};
+        end
+
+        
+    end
+
+endmodule
