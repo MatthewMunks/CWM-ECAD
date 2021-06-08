@@ -60,10 +60,12 @@ module top_tb();
         `testState(22, COOLING, "We're at 22 degrees. We should be cooling.");
         `testState(21, COOLING, "We're passing from a high temperature but haven't exceeded 20 degrees. We should be cooling.");
         `testState(20, IDLE, "We're at 20 degrees. We should be idling.");
+        `testState(21, IDLE, "We've gone from 20 degrees to 21. We should be idling.");
         `testState(19, IDLE, "We're at 19 degrees. We should still be idling.");
         `testState(18, HEATING, "We're at 18 degrees. We should be heating.");
         `testState(19, HEATING, "We're at 19 degrees. We should be heating.");
         `testState(20, IDLE, "We're at 20 degrees. We should be idling.");
+        `testState(19, IDLE, "We've gone from 20 degrees to 19. We should be idling.");
         
         //There's no path directly from cooling to heating or vice versa. We need to test this separately though. testState is insufficient in this case because it's doing two changes of state at once.
         //Note that the timings here need to be carefully calibrated to line up with when the clock changes
