@@ -10,13 +10,15 @@
 `timescale 1ns / 100ps
 
 
-'define testState(temperatureToTest, stateCausedByTemperature, errorMessage)    \
+`define testState(temperatureToTest, stateCausedByTemperature, errorMessage)    \
     temperature = temperatureToTest;                        \
-    #30                                                     \
-    if (currentState != HEATING) begin                      \
+    #20                                                     \
+    if (currentState != stateCausedByTemperature) begin     \
         err = 1;                                            \
-        $display("***TEST FAILED! ``errorMessage.***")      \
+        $display("***TEST FAILED! ***");                    \
+        $display(``errorMessage);                           \
     end                                                     \
+    #20
 
 
 module top_tb();
@@ -44,7 +46,12 @@ module top_tb();
 
     //General set of tests.
     initial begin
-        testState(0, COOLING, "We're at a very low temperature. The system should be heating")
+        err = 0;
+
+        `testState(0, HEATING, "We're at a very low temperature. The system should be heating");
+        `testState(19, HEATING, "We're passing from a low temperature but still haven't exceeded 20 degrees. Therefore we should still be heating.");
+        `testState(20, IDLE, "We're passing from a low temperature but still haven't exceeded 20 degrees. Therefore we should still be heating.");
+        `testState(22, IDLE, "We're passing from a low temperature but still haven't exceeded 20 degrees. Therefore we should still be heating.");
         // temperature = 0;
         // #30
         // if (currentState != HEATING) begin
@@ -95,7 +102,7 @@ module top_tb();
         #1000
         // if (testPhase != DONT_STOP)
         //     $display("***TEST FAILED! The testing did not pass through all the testing phases!***");
-        else if (err==0)
+        if (err==0)
             $display("***TEST PASSED! :) ***");
         $finish;
     end

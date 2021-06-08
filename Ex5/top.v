@@ -32,23 +32,28 @@ module heaterControl (clk, temperature, heating, cooling);
 
     always @(posedge clk) begin
         case (currentState)            
-            'b01 : begin        //cooling = 1, heating = 0
-                if (temperature < AimingFor) begin
+            'b01 : begin        //heating = 0, cooling = 1
+                $display(36);
+                if (temperature <= AimingFor) begin
                     cooling <= 0;
                     heating <= 0;
+                    $display("Terminate cooling");
                 end
             end
-            'b10 : begin        //cooling = 0, heating = 1;
-                if (temperature < AimingFor) begin
+            'b10 : begin        //heating = 1, cooling = 0;
+                $display(44);
+                if (temperature >= AimingFor) begin
                     cooling <= 0;
                     heating <= 0;
+                    $display("Terminate heating");
                 end
             end
             default : begin     //For currentState == 'b00 || 'b11
-                if (temperature < CoolOn) begin
+                $display(52);
+                if (temperature <= CoolOn) begin
                     cooling <= 0;
                     heating <= 1;
-                end else if (temperature > HeatOn) begin
+                end else if (temperature >= HeatOn) begin
                     cooling <= 1;
                     heating <= 0;
                 end else begin                
@@ -59,3 +64,5 @@ module heaterControl (clk, temperature, heating, cooling);
                 
         endcase
     end
+    
+endmodule
