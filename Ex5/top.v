@@ -15,7 +15,7 @@
 
 `timescale 1ns / 100ps
 
-module heaterControl(clk, temperature, heating, cooling);
+module heaterControl (clk, temperature, heating, cooling);
 
     input clk;
     input [4:0] temperature;
