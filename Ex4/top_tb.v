@@ -35,9 +35,21 @@ module top_tb();
 
     //Initial values
     initial begin 
-        rst = 0;        
+        rst = 1;        
         err = 0;
-        button = 1;        
+        button = 1;
+
+        #50
+        if (colour != {001}) begin
+            err = 1;
+            $display("***TEST FAILED! We're in reset mode!***");   
+        end
+        rst = 0;
+        #50
+        if (colour == {001}) begin
+            err = 1;
+            $display("***TEST FAILED! Colour should be changing!***");   
+        end
     end
 
     // Last bit increments
