@@ -20,6 +20,11 @@ create_fileset -constrset -quiet constraints
 #add_files -fileset constraints -norecurse ${project_constraints}
 #set_property is_enabled false [get_files ${project_constraints}]
 
+#Code added for look up table
+create_ip -name blk_mem_gen -vendor xilinx.com -library ip -version 8.4 -module_name ColourLookUp
+set_property -dict [list CONFIG.Component_Name {ColourLookUp}] [get_ips ColourLookUp]
+reset_target all [get_ips ColourLookUp] 
+
 #Todo: add verilog modules here
 read_verilog "top.v"
 read_verilog "top_tb.v"
