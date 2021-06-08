@@ -25,11 +25,6 @@ module dynamicLighting (rst, clk, button, colour);
     input button;
     output reg [2:0] colour;
 
-    //Assumed initial position. (Doesn't really matter but there it is.)
-    initial begin
-        colour = 'b001;
-    end
-
     always @(posedge clk or posedge rst) begin
         //Feels like it could be done simply through incrementing colour but at the same time dealing with the edge cases would have to be done separately.
 
@@ -38,18 +33,18 @@ module dynamicLighting (rst, clk, button, colour);
         // under these conditions, colour doesn't change. 
     
         if (rst == 1) 
-            colour = 'b001;
+            colour <= 'b001;
         else if (colour == 'b000 || colour == 'b111)
-            colour = 'b001;
+            colour <= 'b001;
         else if (button == 1) begin
             case (colour)
-                1 : colour = 2;
-                2 : colour = 3;
-                3 : colour = 4;
-                4 : colour = 5;
-                5 : colour = 6;
-                6 : colour = 1;
-                default : colour = 1;    
+                1 : colour <= 2;
+                2 : colour <= 3;
+                3 : colour <= 4;
+                4 : colour <= 5;
+                5 : colour <= 6;
+                6 : colour <= 1;
+                default : colour <= 1;    
             endcase;                        
         end
         
