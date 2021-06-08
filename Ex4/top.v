@@ -32,6 +32,10 @@ module dynamicLighting (rst, clk, button, colour);
 
     always @(posedge clk or posedge rst) begin
         //Feels like it could be done simply through incrementing colour but at the same time dealing with the edge cases would have to be done separately.
+
+        //If rst=0, colour!=[illegal state] and button=0 then colour isn't updated. 
+        // I can't see any way round this though given that the whole point is that
+        // under these conditions, colour doesn't change. 
     
         if (rst == 1) 
             colour = 'b001;
