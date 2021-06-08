@@ -13,7 +13,7 @@ module top_tb();
 
     parameter CLK_PERIOD = 10;
 
-    parameter STOP_AT = {100};
+    parameter STOP_AT = 'b100;
 
     //Regitsers and wires
     reg clk;
@@ -40,13 +40,13 @@ module top_tb();
         button = 1;
 
         #50
-        if (colour != {001}) begin
+        if (colour != 'b001) begin
             err = 1;
             $display("***TEST FAILED! We're in reset mode!***");   
         end
         rst = 0;
         #50
-        if (colour == {001}) begin
+        if (colour == 'b001) begin
             err = 1;
             $display("***TEST FAILED! Colour should be changing!***");   
         end
@@ -54,7 +54,7 @@ module top_tb();
 
     // Last bit increments
     always @(posedge colour[0]) begin
-        if (colour == {111}) begin 
+        if (colour == 'b111) begin 
             err = 1;
             $display("***TEST FAILED! That is an illegal state!***");        
         end
@@ -79,7 +79,7 @@ module top_tb();
     
     //Last bit decrements
     always @(negedge colour[0]) begin
-        if (colour == {000}) begin
+        if (colour == 'b000) begin
             err = 1;
             $display("***TEST FAILED! That is an illegal state!***");   
         end
