@@ -15,7 +15,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-ColourLookUp your_instance_name (
+ColourLookUp lookingUpColours (
   .clka(clka),    // input wire clka
   .ena(ena),      // input wire ena
   .wea(wea),      // input wire [0 : 0] wea
@@ -24,4 +24,25 @@ ColourLookUp your_instance_name (
   .douta(douta)  // output wire [15 : 0] douta
 );
 
-module colourConverter
+module colourConverter (clk, colour, enable, rgb)
+    input clk;
+    input [2:0] colour;
+    input enable;
+    output reg [23:0] rgb;
+
+    wire [23:0] lookupOut
+
+    always @(posedge clk) begin
+        rgb = lookupOut;
+    end
+    
+    lookingUpColours(
+        .clka(clk),
+        .ena(enable),
+        .wea(0),
+        .addra(colour)
+        .dina(0),
+        .douta(lookupOut)
+    );
+
+endmodule
