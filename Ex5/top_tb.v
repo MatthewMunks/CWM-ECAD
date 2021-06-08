@@ -18,6 +18,10 @@
         $display("***TEST FAILED! ***");                    \
         $display(``errorMessage);                           \
     end                                                     \
+    if (currentState == 'b11) begin                                             \
+        err = 1;                                                                \
+        $display("***TEST FAILED! The system is in an illegal state***");       \
+    end                                                                         \
     #20
 
 
@@ -49,71 +53,52 @@ module top_tb();
         err = 0;
 
         `testState(0, HEATING, "We're at a very low temperature. The system should be heating");
+        `testState(17, HEATING, "We're at a very low temperature. The system should be heating");
+        `testState(18, HEATING, "We're at a very low temperature. The system should be heating");
         `testState(19, HEATING, "We're passing from a low temperature but still haven't exceeded 20 degrees. Therefore we should still be heating.");
-        `testState(20, IDLE, "We're passing from a low temperature but still haven't exceeded 20 degrees. Therefore we should still be heating.");
-        `testState(22, IDLE, "We're passing from a low temperature but still haven't exceeded 20 degrees. Therefore we should still be heating.");
-        // temperature = 0;
-        // #30
-        // if (currentState != HEATING) begin
-        //     err = 1;
-        //     $display("***TEST FAILED! We're at a very low temperature. The system should be heating.***")
-        // end        
-        // temperature = 19;
-        // #30
-        // if (currentState != HEATING) begin 
-        //     err = 1;
-        //     $display("***TEST FAILED! We're passing from a low temperature but still haven't exceeded 20 degrees. Therefore we should still be heating.***")
-        // end
-        // temperature = 20;
-        // #30
-        // if (currentState != IDLE) begin 
-        //     err = 1;
-        //     $display("***TEST FAILED! We've hit 20 degrees. We should now be in an idle state.***")
-        // end
-        // temperature = 22;
-        // #30
-        // if (currentState != IDLE) begin 
-        //     err = 1;
-        //     $display("***TEST FAILED! We've hit 20 degrees. We should still be in an idle state.***")
-        // end
-        // temperature = 23;
-        // #30
-        // if (currentState != COOLING) begin 
-        //     err = 1;
-        //     $display("***TEST FAILED! We're now at 23 degrees. We should be cooling.***")
-        // end
-        // temperature = 21;
-        // #30
-        // if (currentState != COOLING) begin 
-        //     err = 1;
-        //     $display("***TEST FAILED! Weshould still be cooling.***")
-        // end
-        // temperature = 21;
-        // #30
-        // if (currentState != COOLING) begin 
-        //     err = 1;
-        //     $display("***TEST FAILED! Weshould still be cooling.***")
-        // end
+        `testState(20, IDLE, "We're at 20 degrees. We therefore should be simply idling.");
+        `testState(22, COOLING, "We're at 22 degrees. We should be cooling.");
+        `testState(21, COOLING, "We're passing from a high temperature but haven't exceeded 20 degrees. We should be cooling.");
+        `testState(20, IDLE, "We're at 20 degrees. We should be idling.");
+        `testState(19, IDLE, "We're at 19 degrees. We should still be idling.");
+        `testState(18, HEATING, "We're at 18 degrees. We should be heating.");
+        `testState(19, HEATING, "We're at 19 degrees. We should be heating.");
+        `testState(20, IDLE, "We're at 20 degrees. We should be idling.");
         
-    end
+        //There's no path directly from cooling to heating or vice versa. We need to test this separately though. testState is insufficient in this case because it's doing two changes of state at once.
+        //Note that the timings here need to be carefully calibrated to line up with when the clock changes
+        `testState(25, COOLING, "We're at a very high temperature. We should be cooling.");
+        temperature = 15;
+        #7
+        if (currentState != IDLE) begin     
+            err = 1;                                            
+            $display("***TEST FAILED! There is no direct path between cooling and heating***");                                                         
+        end
+        #10
+        if (currentState != HEATING) begin     
+            err = 1;                                            
+            $display("***TEST FAILED! We should now (after two clock ticks) be heating***");                                                         
+        end
+        //And going the other way...
+        `testState(15, HEATING, "We're at a very high temperature. We should be cooling.");
+        temperature = 25;
+        #10
+        if (currentState != IDLE) begin     
+            err = 1;                                            
+            $display("***TEST FAILED! There is no direct path between cooling and heating***");                                                         
+        end
+        #10
+        if (currentState != COOLING) begin     
+            err = 1;                                            
+            $display("***TEST FAILED! We should now (after two clock ticks) be cooling***");                                                         
+        end
 
-    //Finish test, check for success
-    initial begin
-        #1000
-        // if (testPhase != DONT_STOP)
-        //     $display("***TEST FAILED! The testing did not pass through all the testing phases!***");
+        #100
+        //Finish test, check for success
         if (err==0)
             $display("***TEST PASSED! :) ***");
         $finish;
-    end
-
-    always @(posedge clk) begin
-        if (currentState == 'b11) begin
-            err = 1;
-            $display("***TEST FAILED! The system is in an illegal state***");
-        end
-        
-    end
+    end    
 
     heaterControl top (
         .clk(clk),

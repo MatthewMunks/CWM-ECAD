@@ -22,43 +22,37 @@ module heaterControl (clk, temperature, heating, cooling);
     output reg heating;
     output reg cooling;
 
-    wire currentState = {heating,cooling};  //read only!!!
-
     //The first two of these are for when you're in the state {0,0}=0 (Neither heating nor cooling)
-    parameter CoolOn = 18;
-    parameter HeatOn = 22;
+    parameter CoolOn = 22;
+    parameter HeatOn = 18;
     //This state is for when to move to state {0,0}=0 (from when heating or cooling though the condition itself is different)
     parameter AimingFor = 20;    
 
     always @(posedge clk) begin
-        case (currentState)            
+        case ({heating,cooling})            
             'b01 : begin        //heating = 0, cooling = 1
-                $display(36);
+//                $display(36);                
                 if (temperature <= AimingFor) begin
                     cooling <= 0;
                     heating <= 0;
-                    $display("Terminate cooling");
                 end
             end
-            'b10 : begin        //heating = 1, cooling = 0;
-                $display(44);
+            'b10 : begin        //heating = 1, cooling = 0;  
                 if (temperature >= AimingFor) begin
                     cooling <= 0;
                     heating <= 0;
-                    $display("Terminate heating");
                 end
             end
-            default : begin     //For currentState == 'b00 || 'b11
-                $display(52);
-                if (temperature <= CoolOn) begin
+            default : begin     //For currentState == 'b00 || 'b11                
+                if (temperature <= HeatOn) begin
                     cooling <= 0;
-                    heating <= 1;
-                end else if (temperature >= HeatOn) begin
+                    heating <= 1;                    
+                end else if (temperature >= CoolOn) begin
                     cooling <= 1;
-                    heating <= 0;
+                    heating <= 0;                    
                 end else begin                
                     heating <= 0;
-                    cooling <= 0;
+                    cooling <= 0;                    
                 end
             end
                 
