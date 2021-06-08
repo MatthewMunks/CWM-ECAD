@@ -30,8 +30,7 @@ module heaterControl (clk, temperature, heating, cooling);
 
     always @(posedge clk) begin
         case ({heating,cooling})            
-            'b01 : begin        //heating = 0, cooling = 1
-//                $display(36);                
+            'b01 : begin        //heating = 0, cooling = 1             
                 if (temperature <= AimingFor) begin
                     cooling <= 0;
                     heating <= 0;
