@@ -41,8 +41,12 @@ module top_tb ();
     initial begin
         err = 0;
         rst = 1;
-        sel = 0;
+        sel = 1;
         button = 0;
+        
+        //There are 4 main states to test, as well as that of rst.
+        // {sel, button} \in {00,01,10,11}
+        // Note that sel acts on a level above that of rst. (Important)         
 
         #50     //Takes 3 clock ticks for stuff to pass through the memory module
         //rst == 1 => colour = 1 => light = mem.coe[1]
@@ -77,18 +81,27 @@ module top_tb ();
         #CLK_PERIOD
         `testOutputVal(lightStoreState, "The button is not pressed so the system should not keep changing");
                        
-
-        #300
+        
         button = 1;
-        sel = 1;
+        sel = 0;
         #(3*CLK_PERIOD)
         `testOutputVal(24'hFFFFFF, "Sel should be blocking any changes through the system, no matter what value button takes.");
 
         #(3*CLK_PERIOD) 
         button = 0;
         `testOutputVal(24'hFFFFFF, "Sel should be blocking any changes through the system, no matter what value button takes.");
-
-        #(3*CLK_PERIOD)
+        #(5*CLK_PERIOD)
+        
+        //sel acts on a level above that of rst
+        rst = 1;        
+        #50
+        `testOutputVal(24'hFFFFFF, "The output is still controlled by the multiplexer!");
+        button = 1;
+        #50
+        `testOutputVal(24'hFFFFFF, "The output is still controlled by the multiplexer!");   
+        sel = 1;
+        #50
+        `testOutputVal(24'h0000FF, "When in reset mode, the colour should corresond to mem.coe[1]");               
         
         //Finish test, check for success
         if (err==0)

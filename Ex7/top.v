@@ -47,8 +47,8 @@ module lightsSelector (clk, sel, rst, button, light);
     );
 
     multiplexer Multiplex (
-        .a(rgbOut),
-        .b(white),
+        .a(white),
+        .b(rgbOut),
         .sel(sel),
         .out(light)
     );
