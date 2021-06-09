@@ -20,12 +20,12 @@
 
 `timescale 1ns / 100ps
 
-module doorbell(
+module multiplexer(
     //Todo: define inputs here
-    input a,
-    input b,
+    input [23:0] a,
+    input [23:0] b,
     input sel,
-    output out
+    output [23:0] out
     );
     
     //Todo: define registers and wires here
