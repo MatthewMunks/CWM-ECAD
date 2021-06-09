@@ -38,7 +38,7 @@ module multiplexer(
     //Todo: define your logic here      
 	//assign #5 out = intermediate;   
 	
-	wire out;
-	assign #5 out = sel ? b : a;        
+	wire [23:0] out;
+	assign out = sel ? b : a;        
       
 endmodule

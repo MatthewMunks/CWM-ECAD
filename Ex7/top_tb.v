@@ -15,7 +15,7 @@
     if (light != expexting) begin               \
         err = 1;                                \
         $display("***TEST FAILED! ***");        \
-        $display(``errorMessage);               \    
+        $display(``errorMessage);               \
     end
 
 module top_tb ();
@@ -26,7 +26,8 @@ module top_tb ();
     reg rst;
     reg sel;
     reg button;
-    wire light [23:0];
+    wire [23:0] light;
+    reg [23:0] lightStoreState; 
 
     reg err;
 
@@ -38,30 +39,56 @@ module top_tb ();
     end
 
     initial begin
+        err = 0;
         rst = 1;
         sel = 0;
         button = 0;
 
-        #50
+        #50     //Takes 3 clock ticks for stuff to pass through the memory module
         //rst == 1 => colour = 1 => light = mem.coe[1]
-        `testOutputVal(24'h0000FF, "When in reset mode, the colour should corresond to mem.coe[1]")
+        `testOutputVal(24'h0000FF, "When in reset mode, the colour should corresond to mem.coe[1]");
+        rst = 0;     
+        #50
+        `testOutputVal(24'h0000FF, "Button is not pressed so we should not be changing!");
         
         #50
         button = 1;
+        #(4*CLK_PERIOD)
+        `testOutputVal(24'h00FF00, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #CLK_PERIOD
+        `testOutputVal(24'h00FFFF, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #CLK_PERIOD
+        `testOutputVal(24'hFF0000, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #CLK_PERIOD
+        `testOutputVal(24'hFF00FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #CLK_PERIOD
+        `testOutputVal(24'hFFFF00, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #CLK_PERIOD
+        `testOutputVal(24'h0000FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #(3*CLK_PERIOD)
         
-        #300
         button = 0;
+        //Wait for change to come into effect
+        #(8*CLK_PERIOD)
+        lightStoreState = light;
+        //Testing twice just in case 8*CLK_PERIOD happens to coincide with the state on the second loop. (Delayed response)
+        #(8*CLK_PERIOD)
+        `testOutputVal(lightStoreState, "The button is not pressed so the system should not keep changing");
+        #CLK_PERIOD
+        `testOutputVal(lightStoreState, "The button is not pressed so the system should not keep changing");
+                       
 
         #300
         button = 1;
         sel = 1;
+        #(3*CLK_PERIOD)
+        `testOutputVal(24'hFFFFFF, "Sel should be blocking any changes through the system, no matter what value button takes.");
 
-
-        #300 
+        #(3*CLK_PERIOD) 
         button = 0;
+        `testOutputVal(24'hFFFFFF, "Sel should be blocking any changes through the system, no matter what value button takes.");
 
-
-        #50
+        #(3*CLK_PERIOD)
         
         //Finish test, check for success
         if (err==0)
