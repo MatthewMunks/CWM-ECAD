@@ -24,6 +24,8 @@
 //  .douta(douta)  // output wire [23 : 0] douta
 //);
 
+`timescale 1ns / 100ps
+
 module colourConverter (clk, colour, enable, rgb);
     input clk;
     input [2:0] colour;

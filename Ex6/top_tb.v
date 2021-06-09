@@ -7,6 +7,18 @@
 // You need to write the whole file
 //////////////////////////////////////////////////////////////////////////////////
 
+`timescale 1ns / 100ps
+
+`define testState(colourIn, expectedOutput, errorMessage)   \
+    colour = colourIn;                                      \
+    #40                                                     \
+    if (rgbOut != expectedOutput) begin                     \
+        err = 1;                                            \
+        $display("***TEST FAILED! ***");                    \
+        $display(``errorMessage);                           \
+    end                                                     \
+    #50 
+
 module top_tb ();
 
     parameter CLK_PERIOD = 10;
@@ -28,14 +40,21 @@ module top_tb ();
     initial begin
         err = 0;
         enable = 1;
-        colour = 0;
 
-        #70
-        colour = 1;
-        #70
-        colour = 2;
-        #70
-        colour = 3;
+        `testState(0, 24'h000000, "Output is incorrect");
+        `testState(1, 24'h0000FF, "Output is incorrect");
+        `testState(2, 24'h00FF00, "Output is incorrect");
+        `testState(3, 24'h00FFFF, "Output is incorrect");
+        `testState(4, 24'hFF00FF, "Output is incorrect");
+        `testState(5, 24'hFF00FF, "Output is incorrect");
+        `testState(6, 24'hFFFF00, "Output is incorrect");
+        `testState(7, 24'hFFFFFF, "Output is incorrect");
+        
+        //Finish test, check for success
+        if (err==0)
+            $display("***TEST PASSED! :) ***");
+        $finish;
+
         
     end
 
