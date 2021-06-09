@@ -35,7 +35,7 @@ module colourConverter (clk, colour, enable, rgb);
     wire [23:0] lookupOut;
 
     always @(posedge clk) begin
-        rgb = lookupOut;
+        rgb <= lookupOut;
     end
     
     ColourLookUp2 your_instance_name (
