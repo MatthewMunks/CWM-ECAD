@@ -22,9 +22,9 @@ module lightsSelector (clk, sel, rst, button, light);
     input sel;
     input rst;
     input button;
-    output wire [23:0] lights;
+    output wire [23:0] light;
 
-    parameter white = 24'hFFFFFF
+    parameter white = 24'hFFFFFF;
     
     wire [2:0] colour;
     wire [23:0] rgbOut;

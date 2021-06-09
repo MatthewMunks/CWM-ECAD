@@ -15,7 +15,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-//ColourLookUp2 your_instance_name (
+//ColourLookUp your_instance_name (
 //  .clka(clka),    // input wire clka
 //  .ena(ena),      // input wire ena
 //  .wea(wea),      // input wire [0 : 0] wea
@@ -38,7 +38,7 @@ module colourConverter (clk, colour, enable, rgb);
         rgb <= lookupOut;
     end
     
-    ColourLookUp2 your_instance_name (
+    ColourLookUp your_instance_name (
         .clka(clk),
         .ena(enable),
         .wea(0),
