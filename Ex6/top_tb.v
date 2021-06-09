@@ -43,7 +43,7 @@ module top_tb ();
         .clk(clk),
         .enable(enable),
         .colour(colour),
-        .rgb(rgbOut);
+        .rgb(rgbOut)
     );
 
 endmodule

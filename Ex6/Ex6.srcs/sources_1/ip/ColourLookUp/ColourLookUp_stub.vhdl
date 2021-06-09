@@ -1,7 +1,7 @@
 -- Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2019.2 (lin64) Build 2700185 Thu Oct 24 18:45:48 MDT 2019
--- Date        : Tue Jun  8 14:01:24 2021
+-- Date        : Wed Jun  9 08:12:09 2021
 -- Host        : ip-172-31-12-209.eu-west-2.compute.internal running 64-bit CentOS Linux release 7.7.1908 (Core)
 -- Command     : write_vhdl -force -mode synth_stub
 --               /home/centos/Documents/CWM-ECAD/Ex6/Ex6.srcs/sources_1/ip/ColourLookUp/ColourLookUp_stub.vhdl
