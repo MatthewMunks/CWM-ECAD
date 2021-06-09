@@ -16,6 +16,8 @@
 
 // Using Ex2 (Multiplex), Ex4 (LEDState), Ex6 (ColSelect)
 
+`timescale 1ns / 100ps
+
 module lightsSelector (clk, sel, rst, button, light);
 
     input clk;

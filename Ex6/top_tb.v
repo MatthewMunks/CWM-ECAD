@@ -71,8 +71,6 @@ module top_tb ();
         if (err==0)
             $display("***TEST PASSED! :) ***");
         $finish;
-
-        
     end
 
     colourConverter top (
