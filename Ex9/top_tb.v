@@ -7,3 +7,133 @@
 // You need to write the whole file
 //////////////////////////////////////////////////////////////////////////////////
 
+
+// No time to execute
+//Leaving timed stuff for the next iteration
+`define testLightOutputVal(expexting, errorMessage)  \
+    if (lightOut_rgb != expexting) begin               \
+        err = 1;                                \
+        $display("***TEST FAILED! ***");        \
+        $display(``errorMessage);               \
+    end
+
+module top_tb ();
+    
+    parameter CLK_PERIOD = 10;
+
+    reg clk;
+    reg rst;
+    reg lightsSel;
+    reg button;
+    reg sysOn;  // system on 
+    wire [23:0] lightOut_rgb;
+    reg [23:0] lightStoreState; 
+    reg sleep;
+    reg atmospheric;
+    reg [4:0] temperature;
+    reg [5:0] threshold;
+
+    reg err;
+
+    wire heating;
+    wire cooling;
+
+    //Clock generation
+    initial begin
+        clk = 1'b0;
+        forever
+            #(CLK_PERIOD/2) clk=~clk;
+    end
+
+    initial begin
+        err = 0;
+        rst = 1;
+        lightsSel = 1;
+        button = 0;
+        sysOn = 1;
+        sleep = 0;
+        atmospheric = 0;
+        temperature = 20;
+        threshold = 10;
+        
+        //There are 4 main states to test, as well as that of rst.
+        // {lightsSel, button} \in {00,01,10,11}
+        // Note that lightsSel acts on a level above that of rst. (Important)         
+
+        #50     //Takes 3 clock ticks for stuff to pass through the memory module
+        //rst == 1 => colour = 1 => lightOut_rgb = mem.coe[1]
+        `testLightOutputVal(24'h0000FF, "When in reset mode, the colour should corresond to mem.coe[1]");
+        rst = 0;     
+        #50
+        `testLightOutputVal(24'h0000FF, "Button is not pressed so we should not be changing!");
+        
+        #50
+        button = 1;
+        #(4*CLK_PERIOD)
+        `testLightOutputVal(24'h00FF00, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #CLK_PERIOD
+        `testLightOutputVal(24'h00FFFF, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #CLK_PERIOD
+        `testLightOutputVal(24'hFF0000, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #CLK_PERIOD
+        `testLightOutputVal(24'hFF00FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #CLK_PERIOD
+        `testLightOutputVal(24'hFFFF00, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #CLK_PERIOD
+        `testLightOutputVal(24'h0000FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #(3*CLK_PERIOD)
+        
+        button = 0;
+        //Wait for change to come into effect
+        #(8*CLK_PERIOD)
+        lightStoreState = lightOut_rgb;
+        //Testing twice just in case 8*CLK_PERIOD happens to coincide with the state on the second loop. (Delayed response)
+        #(8*CLK_PERIOD)
+        `testLightOutputVal(lightStoreState, "The button is not pressed so the system should not keep changing");
+        #CLK_PERIOD
+        `testLightOutputVal(lightStoreState, "The button is not pressed so the system should not keep changing");
+                       
+        
+        button = 1;
+        lightsSel = 0;
+        #(3*CLK_PERIOD)
+        `testLightOutputVal(24'hFFFFFF, "Sel should be blocking any changes through the system, no matter what value button takes.");
+
+        #(3*CLK_PERIOD) 
+        button = 0;
+        `testLightOutputVal(24'hFFFFFF, "Sel should be blocking any changes through the system, no matter what value button takes.");
+        #(5*CLK_PERIOD)
+        
+        //lightsSel acts on a level above that of rst
+        rst = 1;        
+        #50
+        `testLightOutputVal(24'hFFFFFF, "The output is still controlled by the multiplexer!");
+        button = 1;
+        #50
+        `testLightOutputVal(24'hFFFFFF, "The output is still controlled by the multiplexer!");   
+        lightsSel = 1;
+        #50
+        `testLightOutputVal(24'h0000FF, "When in reset mode, the colour should corresond to mem.coe[1]");               
+        
+        //Finish test, check for success
+        if (err==0)
+            $display("***TEST PASSED! :) ***");
+        $finish;
+    end
+
+    top top (
+        .clk(clk),
+        .rst_n(rst),
+        .sysOn(sysOn),
+        .sleep(sleep),
+        .atmospheric(atmospheric),
+        .temperature(temperature),
+        .heating(heating),
+        .cooling(cooling),
+        .button(button),
+        .lightsSel(lightsSel),
+        .lightOut(lightOut_rgb),
+        .threshold(threshold)
+    );
+
+endmodule
