@@ -19,6 +19,12 @@ create_fileset -constrset -quiet constraints
 add_files -fileset constraints -norecurse ${project_constraints}
 set_property is_enabled true [get_files ${project_constraints}]
 
+report_clocks
+report_cdc
+check_timing
+report_clock_networks
+
+
 read_verilog "AirConditioning.v"
 read_verilog "top.v"
 #read_verilog "top_tb.v"
