@@ -28,7 +28,7 @@ module top(clk_p, clk_n,
     input temperature_3;
     input temperature_4;
 
-    wire [4:0] temperature = {temperature_0, temperature_1, temperature_2, temperature_3, temperature_4};
+    wire [4:0] temperature = {temperature_4, temperature_3, temperature_2, temperature_1, temperature_0};
     
     output heating;
     output cooling;
