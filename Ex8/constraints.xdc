@@ -44,6 +44,6 @@ set_property PULLUP true [get_ports rst_n]
 
 #create_clock apparently throws a warning that can be ignored : https://forums.xilinx.com/t5/Implementation/2020-1-WARNING-Vivado-12-584-No-ports-matched/td-p/1164737
 create_clock -name clk_p -period 10 [get_ports clk_p]
-create_clock -name clk_n -period 10 [get_ports clk_n] waveform {5.0 10.0}
+create_clock -name clk_n -period 10 waveform {5.0 10.0} [get_ports clk_n]
 
 set_clock_groups -asynchronous -group [get_clocks -include_generated_clocks clk_p] -group [get_clocks -include_generated_clocks clk_n]
