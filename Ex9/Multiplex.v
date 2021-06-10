@@ -26,7 +26,7 @@ module multiplexer(
     input [23:0] b,
     input sel,
     output [23:0] out,
-    input sysOn;
+    input sysOn
     );
     
     //Todo: define registers and wires here
