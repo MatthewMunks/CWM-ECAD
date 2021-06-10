@@ -20,6 +20,9 @@ puts "Creating Project"
 
 create_fileset -constrset -quiet constraints
 
+read_verilog "ColSelect.v"
+read_verilog "LEDState.v"
+read_verilog "Multiplex.v"
 read_verilog "AirConditioning.v"
 read_verilog "top.v"
 read_verilog "top_tb.v"

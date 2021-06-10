@@ -15,10 +15,11 @@
 
 `timescale 1ns / 100ps
 
-module heaterControl (clk, temperature, heating, cooling);
+module heaterControl (clk, temperature, heating, cooling, sysOn);
 
     input clk;
     input [4:0] temperature;
+    input sysOn;
     output reg heating;
     output reg cooling;
 
@@ -29,33 +30,39 @@ module heaterControl (clk, temperature, heating, cooling);
     parameter AimingFor = 20;    
 
     always @(posedge clk) begin
-        case ({heating,cooling})            
-            'b01 : begin        //heating = 0, cooling = 1             
-                if (temperature <= AimingFor) begin
-                    cooling <= 0;
-                    heating <= 0;
+        if (sysOn == 1) begin
+            cooling <= 0;
+            heating <= 0;
+        end
+        else begin
+            case ({heating,cooling})            
+                'b01 : begin        //heating = 0, cooling = 1             
+                    if (temperature <= AimingFor) begin
+                        cooling <= 0;
+                        heating <= 0;
+                    end
                 end
-            end
-            'b10 : begin        //heating = 1, cooling = 0;  
-                if (temperature >= AimingFor) begin
-                    cooling <= 0;
-                    heating <= 0;
+                'b10 : begin        //heating = 1, cooling = 0;  
+                    if (temperature >= AimingFor) begin
+                        cooling <= 0;
+                        heating <= 0;
+                    end
                 end
-            end
-            default : begin     //For currentState == 'b00 || 'b11                
-                if (temperature <= HeatOn) begin
-                    cooling <= 0;
-                    heating <= 1;                    
-                end else if (temperature >= CoolOn) begin
-                    cooling <= 1;
-                    heating <= 0;                    
-                end else begin                
-                    heating <= 0;
-                    cooling <= 0;                    
-                end
-            end
-                
-        endcase
+                default : begin     //For currentState == 'b00 || 'b11                
+                    if (temperature <= HeatOn) begin
+                        cooling <= 0;
+                        heating <= 1;                    
+                    end else if (temperature >= CoolOn) begin
+                        cooling <= 1;
+                        heating <= 0;                    
+                    end else begin                
+                        heating <= 0;
+                        cooling <= 0;                    
+                    end
+                end                    
+            endcase
+        end
+        
     end
     
 endmodule
