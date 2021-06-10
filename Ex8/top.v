@@ -21,8 +21,15 @@ module top(clk_p, clk_n,
     input clk_n;
 
     input rst_n;
+    
+    input temperature_0;
+    input temperature_1;
+    input temperature_2;
+    input temperature_3;
+    input temperature_4;
 
-    input [4:0] temperature = {temperature_0, temperature_1, temperature_2, temperature_3, temperature_4};
+    wire [4:0] temperature = {temperature_0, temperature_1, temperature_2, temperature_3, temperature_4};
+    
     output heating;
     output cooling;
     
@@ -44,7 +51,7 @@ module top(clk_p, clk_n,
     );
 
 //Add logic here
-    heaterControl airconditioning(
+    heaterControl AirConditioning (
         .clk(clk),
         .temperature(temperature),
         .heating(heating),

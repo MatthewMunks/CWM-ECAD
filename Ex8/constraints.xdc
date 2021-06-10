@@ -16,7 +16,17 @@ set_property BITSTREAM.CONFIG.SPI_FALL_EDGE YES        [current_design]
 
 #############################################################################################################
 
+set_property IOSTANDARD DIFF_SSTL12 [get_ports clk_n] 
+set_property IOSTANDARD DIFF_SSTL12 [get_ports clk_p]
 
+set_property IOSTANDARD LVCMOS18 [get_ports rst_n]
+set_property IOSTANDARD LVCMOS18 [get_ports heating]
+set_property IOSTANDARD LVCMOS18 [get_ports cooling]
+set_property IOSTANDARD LVCMOS18 [get_ports temperature_0]
+set_property IOSTANDARD LVCMOS18 [get_ports temperature_1]
+set_property IOSTANDARD LVCMOS18 [get_ports temperature_2]
+set_property IOSTANDARD LVCMOS18 [get_ports temperature_3]
+set_property IOSTANDARD LVCMOS18 [get_ports temperature_4]
 
 
 create_clock -name sys_clk -period 10 [get_ports ckl_p]

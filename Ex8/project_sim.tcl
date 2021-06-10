@@ -13,11 +13,14 @@ set test_name "test"
 # Build project.
 create_project -name ${design} -force -dir "." -part ${device}
 set_property source_mgmt_mode DisplayOnly [current_project]  
+#set_property used_in_synthesis false [get_files ${project_constraints}]
+#set_property used_in_implementation true [get_files ${project_constraints}]
 set_property top ${top} [current_fileset]
 puts "Creating Project"
 
 create_fileset -constrset -quiet constraints
 
+read_verilog "AirConditioning.v"
 read_verilog "top.v"
 read_verilog "top_tb.v"
 
