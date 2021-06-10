@@ -20,6 +20,7 @@
 
 //threshold is the threshold over which the colour will change
 //and so represents the number of clock ticks that occur between changes of colour.
+// note that threshold and counter needs to be of the same size.
 module dynamicLighting (rst, clk, button, colour, threshold, sysOn);
 
     input rst;
@@ -29,7 +30,7 @@ module dynamicLighting (rst, clk, button, colour, threshold, sysOn);
     input [5:0] threshold;
     output reg [2:0] colour;
 
-    reg[5:0] counter;
+    reg [5:0] counter;
 
     always @(posedge clk or posedge rst) begin
         //Feels like it could be done simply through incrementing colour but at the same time dealing with the edge cases would have to be done separately.

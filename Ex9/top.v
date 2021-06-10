@@ -19,14 +19,13 @@
 // sysOn             - turning the system on.
 // sleep             - Sleep mode. (heater on but lights off.)
 // atmospheric       - triggers the atmospheric light mode.
-// lightsOn          - 
 // temperature       - temperatuer input
 // heating / cooling - output of the heating and cooling stuff
 // button            - When held, the lights are in motion
 // lightsSel         - Triggers the multiplexer within the lights system. (Triggers white light)
 // lightOut          - output of the light system (rgb)
 // threshold         - The threshold for lights changing within the lights system
-module top(clk, rst_n, sysOn, sleep, atmospheric, lightsOn, 
+module top(clk, rst_n, sysOn, sleep, atmospheric, 
     temperature, heating, cooling, button, lightsSel, lightOut, threshold);
     // input clk_p;
     // input clk_n;
@@ -36,7 +35,10 @@ module top(clk, rst_n, sysOn, sleep, atmospheric, lightsOn,
     input sysOn;
     input sleep;
     input atmospheric;
-    input lightsOn;
+    input button;
+    input lightsSel;
+    output [23:0] lightsOut;
+    input [5:0] threshold;
     
     // input temperature_0;
     // input temperature_1;
