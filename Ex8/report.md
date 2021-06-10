@@ -1,7 +1,9 @@
 # Q1
 Synthesis generated 2 warnings, no critical warnings and no errors. The 2 warnings were:
+
     Warning: Parallel synthesis criteria is not met 
     WARNING: [Synth 8-3331] design top has unconnected port rst_n
+    
 These were the only warnings in the run. 
 There were no errors or critical warnings in the run.
 # Q2
