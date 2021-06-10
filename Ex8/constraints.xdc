@@ -40,12 +40,18 @@ set_property PACKAGE_PIN BA20 [get_ports temperature_2]
 set_property PACKAGE_PIN AL20 [get_ports temperature_3]
 set_property PACKAGE_PIN AT20 [get_ports temperature_4]
 
+set_property PULLUP true [get_ports rst_n]
 
-create_clock -name sys_clk_p -period 10 [get_ports ckl_p]
+#create_clock apparently throws a warning that can be ignored : https://forums.xilinx.com/t5/Implementation/2020-1-WARNING-Vivado-12-584-No-ports-matched/td-p/1164737
+create_clock -name sys_clk_p -period 10 [get_ports {ckl_p}]
 set_clock_groups -asynchronous -group [get_clocks sys_clk_p -include_generated_clocks]
 #run report_clocks and study the report generated to check it's correct!
 #report_clocks
 
-create_clock -name sys_clk_n -period 10 [get_ports ckl_n] waveform {5.0 10.0}
+create_clock -name sys_clk_n -period 10 [get_ports {ckl_n}] waveform {5.0 10.0}
 set_clock_groups -asynchronous -group [get_clocks sys_clk_n -include_generated_clocks]
 
+report_clocks
+report_cdc
+check_timing
+report_clock_networks

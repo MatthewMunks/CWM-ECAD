@@ -879,3 +879,65 @@ wait_on_run: Time (s): cpu = 00:01:30 ; elapsed = 00:17:33 . Memory (MB): peak =
 INFO: [Common 17-206] Exiting Vivado at Thu Jun 10 09:52:20 2021...
 [centos@ip-172-31-12-209 Ex8]$ 
 
+
+
+
+Make 2
+
+source top.tcl -notrace
+Command: link_design -top top -part xcvu9p-fsgd2104-2L-e
+Design is defaulting to srcset: sources_1
+Design is defaulting to constrset: constrs_1
+INFO: [Device 21-403] Loading part xcvu9p-fsgd2104-2L-e
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2376.953 ; gain = 0.000 ; free physical = 9370 ; free virtual = 32901
+INFO: [Netlist 29-17] Analyzing 8 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 1 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2019.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc]
+WARNING: [Vivado 12-584] No ports matched 'ckl_p'. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:44]
+CRITICAL WARNING: [Vivado 12-4739] create_clock:No valid object(s) found for '-objects [get_ports ckl_p]'. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:44]
+Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
+INFO: [Timing 38-35] Done setting XDC timing constraints. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:45]
+WARNING: [Vivado 12-627] No clocks matched 'sys_clk_p'. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:45]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:45]
+get_clocks: Time (s): cpu = 00:00:07 ; elapsed = 00:00:23 . Memory (MB): peak = 2783.535 ; gain = 330.867 ; free physical = 9024 ; free virtual = 32556
+CRITICAL WARNING: [Vivado 12-4739] set_clock_groups:No valid object(s) found for '-group [get_clocks sys_clk_p -include_generated_clocks]'. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:45]
+Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
+CRITICAL WARNING: [Constraints 18-4644] set_clock_groups: All clock groups specified are empty. Please specify atleast one clock group which is not empty. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:45]
+WARNING: [Vivado 12-584] No ports matched 'ckl_n'. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:49]
+CRITICAL WARNING: [Common 17-165] Too many positional options when parsing '5.0 10.0', please type 'create_clock -help' for usage info. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:49]
+WARNING: [Vivado 12-627] No clocks matched 'sys_clk_n'. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:50]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:50]
+CRITICAL WARNING: [Vivado 12-4739] set_clock_groups:No valid object(s) found for '-group [get_clocks sys_clk_n -include_generated_clocks]'. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:50]
+Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
+CRITICAL WARNING: [Constraints 18-4644] set_clock_groups: All clock groups specified are empty. Please specify atleast one clock group which is not empty. [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc:50]
+Finished Parsing XDC File [/home/centos/Documents/CWM-ECAD/Ex8/constraints.xdc]
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2789.473 ; gain = 0.000 ; free physical = 9023 ; free virtual = 32554
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 6 instances were transformed.
+  IBUF => IBUF (IBUFCTRL, INBUF): 5 instances
+  IBUFDS => IBUFDS (DIFFINBUF, IBUFCTRL): 1 instance 
+
+10 Infos, 4 Warnings, 6 Critical Warnings and 0 Errors encountered.
+link_design completed successfully
+link_design: Time (s): cpu = 00:00:32 ; elapsed = 00:01:34 . Memory (MB): peak = 2789.473 ; gain = 1193.273 ; free physical = 9023 ; free virtual = 32554
+Command: opt_design -directive Explore
+INFO: [Vivado_Tcl 4-136] Directive used for opt_design is: Explore
+Attempting to get a license for feature 'Implementation' and/or device 'xcvu9p'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xcvu9p'
+Running DRC as a precondition to command opt_design
+
+Starting DRC Task
+INFO: [DRC 23-27] Running DRC with 4 threads
+INFO: [Project 1-461] DRC finished with 0 Errors
+INFO: [Project 1-462] Please refer to the DRC report (report_drc) for more information.
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:04 . Memory (MB): peak = 2821.492 ; gain = 32.020 ; free physical = 9017 ; free virtual = 32549
+
+Starting Logic Optimization Task
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+
+Phase 1 Retarget
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s)
