@@ -32,6 +32,6 @@ module multiplexer(
 	wire [23:0] out;
 	assign out = 
         (sysOn==0) ? 0 :
-        sel        ? b : a;        
+        (sel ? b : a);
       
 endmodule
