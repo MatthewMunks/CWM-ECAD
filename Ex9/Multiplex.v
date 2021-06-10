@@ -25,7 +25,8 @@ module multiplexer(
     input [23:0] a,
     input [23:0] b,
     input sel,
-    output [23:0] out
+    output [23:0] out,
+    input sysOn;
     );
     
     //Todo: define registers and wires here
@@ -39,6 +40,8 @@ module multiplexer(
 	//assign #5 out = intermediate;   
 	
 	wire [23:0] out;
-	assign out = sel ? b : a;        
+	assign out = 
+        (sysOn==0) ? 0 :
+        sel        ? b : a;        
       
 endmodule
