@@ -15,18 +15,20 @@
 
 module top(clk_p, clk_n,
     //Todo: add all other ports besides clk_n and clk_p 
-    temperature, heating, cooling,
+    rst_n, heating, cooling, temperature_0, temperature_1, temperature_2, temperature_3, temperature_4
     );
     input clk_p;
     input clk_n;
 
-    input [4:0] temperature;
+    input rst_n;
+
+    input [4:0] temperature = {temperature_0, temperature_1, temperature_2, temperature_3, temperature_4};
     output heating;
     output cooling;
     
 
     /* clock infrastructure, do not modify */
-    wire clk_ibufds;
+    wire clk_ibufds;        //Goes between IBUFDS_sysclk and bufg_clk
 
     IBUFDS IBUFDS_sysclk (
         .I(clk_p),

@@ -19,3 +19,8 @@ set_property BITSTREAM.CONFIG.SPI_FALL_EDGE YES        [current_design]
 
 
 
+create_clock -name sys_clk -period 10 [get_ports ckl_p]
+set_clock_groups -asynchronous -group [get_clocks sys_clk -include_generated_clocks]
+#run report_clocks and study the report generated to check it's correct!
+report_clocks
+
