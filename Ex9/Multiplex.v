@@ -25,19 +25,9 @@ module multiplexer(
     input [23:0] a,
     input [23:0] b,
     input sel,
-    output [23:0] out,
-    input sysOn
+    input sysOn,
+    output [23:0] out,    
     );
-    
-    //Todo: define registers and wires here
-	//wire out;
-	//wire intermediate;
-	
-	
-	//assign intermediate = sel ? a : b;             
-    
-    //Todo: define your logic here      
-	//assign #5 out = intermediate;   
 	
 	wire [23:0] out;
 	assign out = 
