@@ -13,29 +13,41 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module top(
-    input clk_p,
-    input clk_n,
-     //Todo: add all other ports besides clk_n and clk_p 
-   );
+module top(clk_p, clk_n,
+    //Todo: add all other ports besides clk_n and clk_p 
+    temperature, heating, cooling,
+    );
+    input clk_p;
+    input clk_n;
+
+    input [4:0] temperature;
+    output heating;
+    output cooling;
     
 
-   /* clock infrastructure, do not modify */
-        wire clk_ibufds;
+    /* clock infrastructure, do not modify */
+    wire clk_ibufds;
 
     IBUFDS IBUFDS_sysclk (
-	.I(clk_p),
-	.IB(clk_n),
-	.O(clk_ibufds)
-);
+        .I(clk_p),
+        .IB(clk_n),
+        .O(clk_ibufds)
+    );
 
-     wire clk; //use this signal as a clock for your design
+    wire clk; //use this signal as a clock for your design
         
-     BUFG bufg_clk (
-	.I  (clk_ibufds),
-	.O  (clk)
-      );
+    BUFG bufg_clk (
+	    .I  (clk_ibufds),
+	    .O  (clk)
+    );
 
 //Add logic here
+    heaterControl airconditioning(
+        .clk(clk),
+        .temperature(temperature),
+        .heating(heating),
+        .cooling(cooling)
+    );
+
 
 endmodule
