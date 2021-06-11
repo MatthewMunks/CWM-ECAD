@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2700185 on Thu Oct 24 18:45:48 MDT 2019
+# IP Build 2699827 on Thu Oct 24 21:16:38 MDT 2019
+# Start of session at: Fri Jun 11 14:28:56 2021
+# Process ID: 16828
+# Current directory: /home/centos/Documents/CWM-ECAD/Ex9/Ex8.runs/synth
+# Command line: vivado -log top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top.tcl
+# Log file: /home/centos/Documents/CWM-ECAD/Ex9/Ex8.runs/synth/top.vds
+# Journal file: /home/centos/Documents/CWM-ECAD/Ex9/Ex8.runs/synth/vivado.jou
+#-----------------------------------------------------------
+source top.tcl -notrace
