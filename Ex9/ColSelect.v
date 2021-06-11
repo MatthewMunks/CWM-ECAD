@@ -26,16 +26,16 @@
 
 `timescale 1ns / 100ps
 
-`define dimRGBVal(index, mappingTo)
-    if (lookupOut[8*index +: 8] == 8'hFF) begin
-        rgb[8*index +: 8] <= mappingTo;
-    end else begin
-        rgb[8*index +: 8] <= 0;
+`define dimRGBVal(index, mappingTo)                 \
+    if (lookupOut[8*index +: 8] == 8'hFF) begin     \
+        rgb[8*index +: 8] <= mappingTo;             \
+    end else begin                                  \
+        rgb[8*index +: 8] <= 0;                     \
     end
 
-`define dimRGB
-    `dimRGBVal(0, 8'h88);
-    `dimRGBVal(1, 8'h88);
+`define dimRGB              \
+    `dimRGBVal(0, 8'h88);   \
+    `dimRGBVal(1, 8'h88);   \
     `dimRGBVal(2, 8'h88);
 
 module colourConverter (clk, colour, enable, rgb, dimLights);
