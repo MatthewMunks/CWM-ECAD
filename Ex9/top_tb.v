@@ -11,11 +11,14 @@
 // No time to execute
 //Leaving timed stuff for the next iteration
 `define testLightOutputVal(expexting, errorMessage)  \
+    ff = ~ff;\
     if (lightOut_rgb != expexting) begin               \
         err = 1;                                \
         $display("***TEST FAILED! ***");        \
         $display(``errorMessage);               \
     end
+    
+
 
 module top_tb ();
     
@@ -34,6 +37,7 @@ module top_tb ();
     reg [5:0] threshold;
 
     reg err;
+    reg ff;
 
     wire heating;
     wire cooling;
@@ -55,6 +59,7 @@ module top_tb ();
         atmospheric = 0;
         temperature = 20;
         threshold = 10;
+        ff = 0;
         
         //There are 4 main states to test, as well as that of rst.
         // {lightsSel, button} \in {00,01,10,11}
@@ -69,19 +74,32 @@ module top_tb ();
         
         #50
         button = 1;
-        #(4*CLK_PERIOD)
+        #((threshold+1)*CLK_PERIOD)
         `testLightOutputVal(24'h00FF00, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #CLK_PERIOD
+        #((threshold+1)*CLK_PERIOD)
         `testLightOutputVal(24'h00FFFF, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #CLK_PERIOD
+        #((threshold+1)*CLK_PERIOD)
         `testLightOutputVal(24'hFF0000, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #CLK_PERIOD
+        #((threshold+1)*CLK_PERIOD)
         `testLightOutputVal(24'hFF00FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #CLK_PERIOD
+        #((threshold+1)*CLK_PERIOD)
         `testLightOutputVal(24'hFFFF00, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #CLK_PERIOD
+        #((threshold+1)*CLK_PERIOD)
         `testLightOutputVal(24'h0000FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #(3*CLK_PERIOD)
+        threshold = 20;     //Checking that it's threshold that's changing the timing..
+        #((threshold+2)*CLK_PERIOD)
+        `testLightOutputVal(24'h00FF00, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (00FF00)");
+        #((threshold+1)*CLK_PERIOD)
+        `testLightOutputVal(24'h00FFFF, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (00FFFF)");
+        #((threshold+1)*CLK_PERIOD)
+        `testLightOutputVal(24'hFF0000, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (FF0000)");
+        #((threshold+1)*CLK_PERIOD)
+        `testLightOutputVal(24'hFF00FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #((threshold+1)*CLK_PERIOD)
+        `testLightOutputVal(24'hFFFF00, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #((threshold+1)*CLK_PERIOD)
+        `testLightOutputVal(24'h0000FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        #((threshold+1)*CLK_PERIOD)
         
         button = 0;
         //Wait for change to come into effect
