@@ -16,17 +16,17 @@ set_property BITSTREAM.CONFIG.SPI_FALL_EDGE YES        [current_design]
 
 #############################################################################################################
 
-set_property IOSTANDARD DIFF_SSTL12 [get_ports clk_n] 
-set_property IOSTANDARD DIFF_SSTL12 [get_ports clk_p]
-
-set_property IOSTANDARD LVCMOS18 [get_ports rst_n]
-set_property IOSTANDARD LVCMOS18 [get_ports heating]
-set_property IOSTANDARD LVCMOS18 [get_ports cooling]
-set_property IOSTANDARD LVCMOS18 [get_ports temperature_0]
-set_property IOSTANDARD LVCMOS18 [get_ports temperature_1]
-set_property IOSTANDARD LVCMOS18 [get_ports temperature_2]
-set_property IOSTANDARD LVCMOS18 [get_ports temperature_3]
-set_property IOSTANDARD LVCMOS18 [get_ports temperature_4]
+set_property IOSTANDARD DIFF_SSTL12 [get_ports {clk_n clk_p}] 
+set_property IOSTANDARD LVCMOS18 [get_ports {rst_n sysOn sleep atmospheric}]
+set_property IOSTANDARD LVCMOS18 [get_ports {temperature_0 temperature_1 temperature_2 temperature_3 temperature_4}]
+set_property IOSTANDARD LVCMOS18 [get_ports {heating cooling button lightsSel}]
+set_property IOSTANDARD LVCMOS18 [get_ports {lightsOut_R0 lightsOut_R1 lightsOut_R2 lightsOut_R3}]
+set_property IOSTANDARD LVCMOS18 [get_ports {lightsOut_R4 lightsOut_R5 lightsOut_R6 lightsOut_R7}]
+set_property IOSTANDARD LVCMOS18 [get_ports {lightsOut_G0 lightsOut_G1 lightsOut_G2 lightsOut_G3}]
+set_property IOSTANDARD LVCMOS18 [get_ports {lightsOut_G4 lightsOut_G5 lightsOut_G6 lightsOut_G7}]
+set_property IOSTANDARD LVCMOS18 [get_ports {lightsOut_B0 lightsOut_B1 lightsOut_B2 lightsOut_B3}]
+set_property IOSTANDARD LVCMOS18 [get_ports {lightsOut_B4 lightsOut_B5 lightsOut_B6 lightsOut_B7}]
+set_property IOSTANDARD LVCMOS18 [get_ports {threshold_0 threshold_1 threshold_2 threshold_3 threshold_4 threshold_5}]
 
 set_property PACKAGE_PIN AY38 [get_ports clk_n]
 set_property PACKAGE_PIN AY37 [get_ports clk_p]
