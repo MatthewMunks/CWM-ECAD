@@ -34,6 +34,54 @@
     `testLightOutputVal(24'h0000FF, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (0000FF)");       \
 
 
+`define encapsulatingLightsTesting                                                                                                                  \
+    #50     //Takes 3 clock ticks for stuff to pass through the memory module                                                                       \
+    //rst == 1 => colour = 1 => lightOut_rgb = mem.coe[1]                                                                                           \
+    `testLightOutputVal(24'h0000FF, "When in reset mode, the colour should corresond to mem.coe[1]");                                               \
+    rst = 0;                                                                                                                                        \
+    #50                                                                                                                                             \
+    `testLightOutputVal(24'h0000FF, "Button is not pressed so we should not be changing!");                                                         \
+                                                                                                                                                    \
+    #50                                                                                                                                             \
+    button = 1;                                                                                                                                     \
+    `testingLightsTiming                                                                                                                            \
+    threshold = 20;     //Checking that it's threshold that's changing the timing.                                                                  \
+    `testingLightsTiming                                                                                                                            \
+//       threshold = 50;     //Checking that it's threshold that's changing the timing.                                                             \
+//       `testingLightsTiming                                                                                                                       \
+                                                                                                                                                    \
+    button = 0;                                                                                                                                     \
+    //Wait for change to come into effect                                                                                                           \
+    #(8*CLK_PERIOD)                                                                                                                                 \
+    lightStoreState = lightOut_rgb;                                                                                                                 \
+    //Testing twice just in case 8*CLK_PERIOD happens to coincide with the state on the second loop. (Delayed response)                             \
+    #(8*CLK_PERIOD)                                                                                                                                 \
+    `testLightOutputVal(lightStoreState, "The button is not pressed so the system should not keep changing");                                       \
+    #CLK_PERIOD                                                                                                                                     \
+    `testLightOutputVal(lightStoreState, "The button is not pressed so the system should not keep changing");                                       \
+                                                                                                                                                    \
+                                                                                                                                                    \
+    button = 1;                                                                                                                                     \
+    lightsSel = 0;                                                                                                                                  \
+    #(3*CLK_PERIOD)                                                                                                                                 \
+    `testLightOutputVal(24'hFFFFFF, "Sel should be blocking any changes through the system, no matter what value button takes.");                   \
+                                                                                                                                                    \
+    #(3*CLK_PERIOD)                                                                                                                                 \
+    button = 0;                                                                                                                                     \
+    `testLightOutputVal(24'hFFFFFF, "Sel should be blocking any changes through the system, no matter what value button takes.");                   \
+    #(5*CLK_PERIOD)                                                                                                                                 \
+                                                                                                                                                    \
+    //lightsSel acts on a level above that of rst                                                                                                   \
+    rst = 1;                                                                                                                                        \
+    #50                                                                                                                                             \
+    `testLightOutputVal(24'hFFFFFF, "The output is still controlled by the multiplexer!");                                                          \
+    button = 1;                                                                                                                                     \
+    #50                                                                                                                                             \
+    `testLightOutputVal(24'hFFFFFF, "The output is still controlled by the multiplexer!");                                                          \
+    lightsSel = 1;                                                                                                                                  \
+    #50                                                                                                                                             \
+    `testLightOutputVal(24'h0000FF, "When in reset mode, the colour should corresond to mem.coe[1]");                                               \
+
 module top_tb ();
     
     parameter CLK_PERIOD = 10;
@@ -78,53 +126,8 @@ module top_tb ();
         //There are 4 main states to test, as well as that of rst.
         // {lightsSel, button} \in {00,01,10,11}
         // Note that lightsSel acts on a level above that of rst. (Important)         
-
-        #50     //Takes 3 clock ticks for stuff to pass through the memory module
-        //rst == 1 => colour = 1 => lightOut_rgb = mem.coe[1]
-        `testLightOutputVal(24'h0000FF, "When in reset mode, the colour should corresond to mem.coe[1]");
-        rst = 0;     
-        #50
-        `testLightOutputVal(24'h0000FF, "Button is not pressed so we should not be changing!");
-        
-        #50
-        button = 1;
-        `testingLightsTiming
-        threshold = 20;     //Checking that it's threshold that's changing the timing.
-        `testingLightsTiming
-//        threshold = 50;     //Checking that it's threshold that's changing the timing.
-//        `testingLightsTiming
-        
-        button = 0;
-        //Wait for change to come into effect
-        #(8*CLK_PERIOD)
-        lightStoreState = lightOut_rgb;
-        //Testing twice just in case 8*CLK_PERIOD happens to coincide with the state on the second loop. (Delayed response)
-        #(8*CLK_PERIOD)
-        `testLightOutputVal(lightStoreState, "The button is not pressed so the system should not keep changing");
-        #CLK_PERIOD
-        `testLightOutputVal(lightStoreState, "The button is not pressed so the system should not keep changing");
-                       
-        
-        button = 1;
-        lightsSel = 0;
-        #(3*CLK_PERIOD)
-        `testLightOutputVal(24'hFFFFFF, "Sel should be blocking any changes through the system, no matter what value button takes.");
-
-        #(3*CLK_PERIOD) 
-        button = 0;
-        `testLightOutputVal(24'hFFFFFF, "Sel should be blocking any changes through the system, no matter what value button takes.");
-        #(5*CLK_PERIOD)
-        
-        //lightsSel acts on a level above that of rst
-        rst = 1;        
-        #50
-        `testLightOutputVal(24'hFFFFFF, "The output is still controlled by the multiplexer!");
-        button = 1;
-        #50
-        `testLightOutputVal(24'hFFFFFF, "The output is still controlled by the multiplexer!");   
-        lightsSel = 1;
-        #50
-        `testLightOutputVal(24'h0000FF, "When in reset mode, the colour should corresond to mem.coe[1]");               
+        `encapsulatingLightsTesting
+                      
         
         //Finish test, check for success
         if (err==0)
