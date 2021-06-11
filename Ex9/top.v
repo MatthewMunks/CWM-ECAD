@@ -1,6 +1,6 @@
 //Sets each input as a single binary input.
 
-module metaTop(
+module top(
     clk_p, clk_n,
     rst_n, sysOn, sleep, atmospheric,
     temperature_0, temperature_1, temperature_2, temperature_3, temperature_4,
@@ -57,7 +57,7 @@ module metaTop(
 	    .O  (clk)
     );
 
-    top top (
+    LowerTop LowerTop (
         .clk(clk),
         .rst_n(rst),
         .sysOn(sysOn),

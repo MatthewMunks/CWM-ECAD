@@ -24,7 +24,7 @@
 // lightsSel         - Triggers the multiplexer within the lights system. (Triggers white light)
 // lightsOut         - output of the light system (rgb)
 // threshold         - The threshold for lights changing within the lights system
-module top(clk, rst_n, sysOn, sleep, atmospheric, 
+module LowerTop(clk, rst_n, sysOn, sleep, atmospheric, 
     temperature, heating, cooling, button, lightsSel, lightsOut, threshold);
 
     input clk;
