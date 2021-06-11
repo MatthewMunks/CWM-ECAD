@@ -24,8 +24,14 @@ create_ip -name blk_mem_gen -vendor xilinx.com -library ip -version 8.4 -module_
 set_property -dict [list CONFIG.Component_Name {ColourLookUp} CONFIG.Write_Width_A {24} CONFIG.Write_Depth_A {8} CONFIG.Read_Width_A {24} CONFIG.Write_Width_B {24} CONFIG.Read_Width_B {24} CONFIG.Load_Init_File {true} CONFIG.Coe_File {/home/centos/Documents/CWM-ECAD/Ex7/mem.coe}] [get_ips ColourLookUp]
 reset_target all [get_ips ColourLookUp] 
 
+read_verilog "ColSelect.v"
+read_verilog "LEDState.v"
+read_verilog "Multiplex.v"
+read_verilog "lightsSystem.v" 
+read_verilog "AirConditioning.v"
 read_verilog "AirConditioning.v"
 read_verilog "top.v"
+read_verilog "topWiringIn.v"
 #read_verilog "top_tb.v"
 
 update_compile_order -fileset sources_1
