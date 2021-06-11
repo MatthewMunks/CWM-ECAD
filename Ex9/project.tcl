@@ -29,8 +29,8 @@ read_verilog "LEDState.v"
 read_verilog "Multiplex.v"
 read_verilog "lightsSystem.v" 
 read_verilog "AirConditioning.v"
+read_verilog "LowerTop.v"
 read_verilog "top.v"
-read_verilog "topWiringIn.v"
 #read_verilog "top_tb.v"
 
 update_compile_order -fileset sources_1

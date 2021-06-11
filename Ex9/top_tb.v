@@ -242,7 +242,7 @@ module top_tb ();
         $finish;
     end
 
-    top top (
+    top LowerTop (
         .clk(clk),
         .rst_n(rst),
         .sysOn(sysOn),
