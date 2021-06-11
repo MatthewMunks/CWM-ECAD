@@ -15,7 +15,6 @@ module metaTop(
     );
 
     input clk_p, clk_n;   
-    reg clk; 
 
     input rst_n, sysOn, sleep, atmospheric;
 
@@ -32,15 +31,15 @@ module metaTop(
     wire [7:0] red = {lightsOut_R7, lightsOut_R6, lightsOut_R5, lightsOut_R4, lightsOut_R3, lightsOut_R2, lightsOut_R1, lightsOut_R0};
     output lightsOut_G0, lightsOut_G1, lightsOut_G2, lightsOut_G3; 
     output lightsOut_G4, lightsOut_G5, lightsOut_G6, lightsOut_G7;
-    wire [7:0] green = {lightsOut_G7, lightsOut_G6, lightsOut_G5, lightsOut_G4, lightsOut_G3,lightsOut_G2, lightsOut_G1, lightsOut_G0}
+    wire [7:0] green = {lightsOut_G7, lightsOut_G6, lightsOut_G5, lightsOut_G4, lightsOut_G3,lightsOut_G2, lightsOut_G1, lightsOut_G0};
     output lightsOut_B0, lightsOut_B1, lightsOut_B2, lightsOut_B3; 
     output lightsOut_B4, lightsOut_B5, lightsOut_B6, lightsOut_B7;
-    wire [7:0] blue = {lightsOut_B7, lightsOut_B6, lightsOut_B5, lightsOut_B4, lightsOut_B3, lightsOut_B2, lightsOut_B1, lightsOut_B0}
+    wire [7:0] blue = {lightsOut_B7, lightsOut_B6, lightsOut_B5, lightsOut_B4, lightsOut_B3, lightsOut_B2, lightsOut_B1, lightsOut_B0};
 
     wire [23:0] lightOut_rgb = {red, blue, green};
 
     input threshold_0, threshold_1, threshold_2, threshold_3, threshold_4, threshold_5;
-    wire [5:0] threshold = {threshold_5, threshold_4, threshold_3, threshold_2, threshold_1, threshold_0}
+    wire [5:0] threshold = {threshold_5, threshold_4, threshold_3, threshold_2, threshold_1, threshold_0};
 
     /* clock infrastructure, do not modify */
     wire clk_ibufds;        //Goes between IBUFDS_sysclk and bufg_clk
