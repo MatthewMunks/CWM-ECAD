@@ -37,7 +37,7 @@ module top(clk, rst_n, sysOn, sleep, atmospheric,
     input atmospheric;
     input button;
     input lightsSel;
-    output [23:0] lightsOut;
+    
     input [5:0] threshold;
     
     // input temperature_0;
@@ -51,6 +51,7 @@ module top(clk, rst_n, sysOn, sleep, atmospheric,
     
     output heating;
     output cooling;
+    output reg [23:0] lightsOut;
     
 
     /* clock infrastructure, do not modify */
@@ -83,9 +84,10 @@ module top(clk, rst_n, sysOn, sleep, atmospheric,
         .clk(clk),
         .button(button),
         .sel(lightsSel),
-        .light(lightsOut),
+        .light(lightsIntermediate),
         .threshold(threshold),
-        .sysOn(sysOn)
+        .sysOn(sysOn),
+        .dimLights(atmospheric)
     );
 
 

@@ -195,6 +195,9 @@ module top_tb ();
         `encapsulatingLightsTesting
 
         `rudimentaryHeaterTests
+
+        atmospheric = 1;
+        `encapsulatingLightsTesting
                       
         
         //Finish test, check for success

@@ -18,13 +18,14 @@
 
 `timescale 1ns / 100ps
 
-module lightsSelector (clk, sel, rst, button, light, threshold, sysOn);
+module lightsSelector (clk, sel, rst, button, light, threshold, sysOn, dimLights);
 
     input clk;
     input sel;
     input rst;
     input button;
     input sysOn;
+    input dimLights;
     input [5:0] threshold;
     output [23:0] light;
 
@@ -46,7 +47,8 @@ module lightsSelector (clk, sel, rst, button, light, threshold, sysOn);
         .clk(clk),
         .colour(colour),
         .enable(1),
-        .rgb(rgbOut)
+        .rgb(rgbOut),
+        .dimLights(dimLights)
     );
 
     multiplexer Multiplex (

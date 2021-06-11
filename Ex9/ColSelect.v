@@ -26,16 +26,32 @@
 
 `timescale 1ns / 100ps
 
-module colourConverter (clk, colour, enable, rgb);
+`define dimRGBVal(index, mappingTo)
+    if (lookupOut[8*index +: 8] == 8'hFF) begin
+        rgb[8*index +: 8] <= mappingTo;
+    end else begin
+        rgb[8*index +: 8] <= 0;
+    end
+
+`define dimRGB
+    `dimRGBVal(0, 8'h88);
+    `dimRGBVal(1, 8'h88);
+    `dimRGBVal(2, 8'h88);
+
+module colourConverter (clk, colour, enable, rgb, dimLights);
     input clk;
     input [2:0] colour;
     input enable;
+    input dimLights;
     output reg [23:0] rgb;
 
     wire [23:0] lookupOut;
 
-    always @(posedge clk) begin
-        rgb <= lookupOut;
+    always @(posedge clk) begin        
+        if (dimLights == 1)
+            `dimRGB
+        else
+            rgb <= lookupOut;
     end
     
     ColourLookUp your_instance_name (
