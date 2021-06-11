@@ -132,7 +132,7 @@ module top_tb ();
         .cooling(cooling),
         .button(button),
         .lightsSel(lightsSel),
-        .lightOut(lightOut_rgb),
+        .lightsOut(lightOut_rgb),
         .threshold(threshold)
     );
 

@@ -23,10 +23,10 @@
 // heating / cooling - output of the heating and cooling stuff
 // button            - When held, the lights are in motion
 // lightsSel         - Triggers the multiplexer within the lights system. (Triggers white light)
-// lightOut          - output of the light system (rgb)
+// lightsOut         - output of the light system (rgb)
 // threshold         - The threshold for lights changing within the lights system
 module top(clk, rst_n, sysOn, sleep, atmospheric, 
-    temperature, heating, cooling, button, lightsSel, lightOut, threshold);
+    temperature, heating, cooling, button, lightsSel, lightsOut, threshold);
     // input clk_p;
     // input clk_n;
 
@@ -78,12 +78,12 @@ module top(clk, rst_n, sysOn, sleep, atmospheric,
         .sysOn(sysOn)
     );
 
-    lightsSelector LEDState (
+    lightsSelector lightsSystem (
         .rst(rst_n),
         .clk(clk),
         .button(button),
         .sel(lightsSel),
-        .light(lightOut),
+        .light(lightsOut),
         .threshold(threshold),
         .sysOn(sysOn)
     );

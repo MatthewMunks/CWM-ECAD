@@ -26,7 +26,7 @@ module multiplexer(
     input [23:0] b,
     input sel,
     input sysOn,
-    output [23:0] out,    
+    output [23:0] out
     );
 	
 	wire [23:0] out;

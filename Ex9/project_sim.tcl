@@ -26,6 +26,7 @@ reset_target all [get_ips ColourLookUp]
 read_verilog "ColSelect.v"
 read_verilog "LEDState.v"
 read_verilog "Multiplex.v"
+read_verilog "lightsSystem.v" 
 read_verilog "AirConditioning.v"
 read_verilog "top.v"
 read_verilog "top_tb.v"
