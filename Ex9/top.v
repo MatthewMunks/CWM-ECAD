@@ -12,8 +12,6 @@
 //           heating, cooling
 //////////////////////////////////////////////////////////////////////////////////
 
-//clk_p, clk_n
-
 module metaTop(
     clk_p, clk_n,
     rst_n, sysOn, sleep, atmospheric,
