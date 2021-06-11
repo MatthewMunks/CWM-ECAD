@@ -100,6 +100,10 @@
 module top_tb ();
     
     parameter CLK_PERIOD = 10;
+        
+    parameter COOLING = 'b01;
+    parameter HEATING = 'b10;
+    parameter IDLE = 'b00;
 
     reg clk;
     reg rst;
@@ -118,6 +122,7 @@ module top_tb ();
 
     wire heating;
     wire cooling;
+    wire [1:0] currentState = {heating, cooling};
 
     //Clock generation
     initial begin

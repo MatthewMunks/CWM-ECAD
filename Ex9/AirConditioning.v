@@ -30,7 +30,7 @@ module heaterControl (clk, temperature, heating, cooling, sysOn);
     parameter AimingFor = 20;    
 
     always @(posedge clk) begin
-        if (sysOn == 1) begin
+        if (sysOn == 0) begin
             cooling <= 0;
             heating <= 0;
         end
