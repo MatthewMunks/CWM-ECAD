@@ -7,7 +7,7 @@
 // You need to write the whole file
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//#region testing the lights (basic functionality)
 // No time to execute
 //Leaving timed stuff for the next iteration
 `define testLightOutputVal(expexting, errorMessage)  \
@@ -80,7 +80,22 @@
     `testLightOutputVal(24'hFFFFFF, "The output is still controlled by the multiplexer!");                                                          \
     lightsSel = 1;                                                                                                                                  \
     #50                                                                                                                                             \
-    `testLightOutputVal(24'h0000FF, "When in reset mode, the colour should corresond to mem.coe[1]");                                               \
+    `testLightOutputVal(24'h0000FF, "When in reset mode, the colour should corresond to mem.coe[1]");
+//#endregion
+
+`define testHeaterState(temperatureToTest, stateCausedByTemperature, errorMessage)    \
+    temperature = temperatureToTest;                                            \
+    #20                                                                         \
+    if (currentState != stateCausedByTemperature) begin                         \
+        err = 1;                                                                \
+        $display("***TEST FAILED! ***");                                        \
+        $display(``errorMessage);                                               \
+    end                                                                         \
+    if (currentState == 'b11) begin                                             \
+        err = 1;                                                                \
+        $display("***TEST FAILED! The system is in an illegal state***");       \
+    end                                                                         \
+    #20
 
 module top_tb ();
     
@@ -127,6 +142,49 @@ module top_tb ();
         // {lightsSel, button} \in {00,01,10,11}
         // Note that lightsSel acts on a level above that of rst. (Important)         
         `encapsulatingLightsTesting
+
+        `testHeaterState(0, HEATING, "We're at a very low temperature. The system should be heating");
+        `testHeaterState(17, HEATING, "We're at a very low temperature. The system should be heating");
+        `testHeaterState(18, HEATING, "We're at a very low temperature. The system should be heating");
+        `testHeaterState(19, HEATING, "We're passing from a low temperature but still haven't exceeded 20 degrees. Therefore we should still be heating.");
+        `testHeaterState(20, IDLE, "We're at 20 degrees. We therefore should be simply idling.");
+        `testHeaterState(22, COOLING, "We're at 22 degrees. We should be cooling.");
+        `testHeaterState(21, COOLING, "We're passing from a high temperature but haven't exceeded 20 degrees. We should be cooling.");
+        `testHeaterState(20, IDLE, "We're at 20 degrees. We should be idling.");
+        `testHeaterState(21, IDLE, "We've gone from 20 degrees to 21. We should be idling.");
+        `testHeaterState(19, IDLE, "We're at 19 degrees. We should still be idling.");
+        `testHeaterState(18, HEATING, "We're at 18 degrees. We should be heating.");
+        `testHeaterState(19, HEATING, "We're at 19 degrees. We should be heating.");
+        `testHeaterState(20, IDLE, "We're at 20 degrees. We should be idling.");
+        `testHeaterState(19, IDLE, "We've gone from 20 degrees to 19. We should be idling.");
+        
+        //There's no path directly from cooling to heating or vice versa. We need to test this separately though. testHeaterState is insufficient in this case because it's doing two changes of state at once.
+        //Note that the timings here need to be carefully calibrated to line up with when the clock changes
+        `testHeaterState(25, COOLING, "We're at a very high temperature. We should be cooling.");
+        temperature = 15;
+        #7
+        if (currentState != IDLE) begin     
+            err = 1;                                            
+            $display("***TEST FAILED! There is no direct path between cooling and heating***");                                                         
+        end
+        #10
+        if (currentState != HEATING) begin     
+            err = 1;                                            
+            $display("***TEST FAILED! We should now (after two clock ticks) be heating***");                                                         
+        end
+        //And going the other way...
+        `testHeaterState(15, HEATING, "We're at a very high temperature. We should be cooling.");
+        temperature = 25;
+        #10
+        if (currentState != IDLE) begin     
+            err = 1;                                            
+            $display("***TEST FAILED! There is no direct path between cooling and heating***");                                                         
+        end
+        #10
+        if (currentState != COOLING) begin     
+            err = 1;                                            
+            $display("***TEST FAILED! We should now (after two clock ticks) be cooling***");                                                         
+        end
                       
         
         //Finish test, check for success
