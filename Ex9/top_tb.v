@@ -19,6 +19,20 @@
     end
     
 
+`define testingLightsTiming                                                                                                                             \
+    #((threshold+1)*CLK_PERIOD)                                                                                                                         \
+    `testLightOutputVal(24'h00FF00, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (00FF00)");       \
+    #((threshold+1)*CLK_PERIOD)                                                                                                                         \
+    `testLightOutputVal(24'h00FFFF, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (00FFFF)");       \
+    #((threshold+1)*CLK_PERIOD)                                                                                                                         \
+    `testLightOutputVal(24'hFF0000, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (FF0000)");       \
+    #((threshold+1)*CLK_PERIOD)                                                                                                                         \
+    `testLightOutputVal(24'hFF00FF, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (FF00FF)");       \
+    #((threshold+1)*CLK_PERIOD)                                                                                                                         \
+    `testLightOutputVal(24'hFFFF00, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (FFFF00)");       \
+    #((threshold+1)*CLK_PERIOD)                                                                                                                         \
+    `testLightOutputVal(24'h0000FF, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (0000FF)");       \
+
 
 module top_tb ();
     
@@ -74,32 +88,35 @@ module top_tb ();
         
         #50
         button = 1;
-        #((threshold+1)*CLK_PERIOD)
-        `testLightOutputVal(24'h00FF00, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #((threshold+1)*CLK_PERIOD)
-        `testLightOutputVal(24'h00FFFF, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #((threshold+1)*CLK_PERIOD)
-        `testLightOutputVal(24'hFF0000, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #((threshold+1)*CLK_PERIOD)
-        `testLightOutputVal(24'hFF00FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #((threshold+1)*CLK_PERIOD)
-        `testLightOutputVal(24'hFFFF00, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #((threshold+1)*CLK_PERIOD)
-        `testLightOutputVal(24'h0000FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        threshold = 20;     //Checking that it's threshold that's changing the timing..
-        #((threshold+2)*CLK_PERIOD)
-        `testLightOutputVal(24'h00FF00, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (00FF00)");
-        #((threshold+1)*CLK_PERIOD)
-        `testLightOutputVal(24'h00FFFF, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (00FFFF)");
-        #((threshold+1)*CLK_PERIOD)
-        `testLightOutputVal(24'hFF0000, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (FF0000)");
-        #((threshold+1)*CLK_PERIOD)
-        `testLightOutputVal(24'hFF00FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #((threshold+1)*CLK_PERIOD)
-        `testLightOutputVal(24'hFFFF00, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #((threshold+1)*CLK_PERIOD)
-        `testLightOutputVal(24'h0000FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
-        #((threshold+1)*CLK_PERIOD)
+        `testingLightsTiming
+        threshold = 20;     //Checking that it's threshold that's changing the timing.
+        `testingLightsTiming
+        // #((threshold+1)*CLK_PERIOD)
+        // `testLightOutputVal(24'h00FF00, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        // #((threshold+1)*CLK_PERIOD)
+        // `testLightOutputVal(24'h00FFFF, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        // #((threshold+1)*CLK_PERIOD)
+        // `testLightOutputVal(24'hFF0000, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        // #((threshold+1)*CLK_PERIOD)
+        // `testLightOutputVal(24'hFF00FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        // #((threshold+1)*CLK_PERIOD)
+        // `testLightOutputVal(24'hFFFF00, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        // #((threshold+1)*CLK_PERIOD)
+        // `testLightOutputVal(24'h0000FF, "We're moving through the sequence. The colours should be changing as per the sequence.");
+        // threshold = 20;     //Checking that it's threshold that's changing the timing.
+        // #((threshold+2)*CLK_PERIOD)
+        // `testLightOutputVal(24'h00FF00, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (00FF00)");
+        // #((threshold+1)*CLK_PERIOD)
+        // `testLightOutputVal(24'h00FFFF, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (00FFFF)");
+        // #((threshold+1)*CLK_PERIOD)
+        // `testLightOutputVal(24'hFF0000, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (FF0000)");
+        // #((threshold+1)*CLK_PERIOD)
+        // `testLightOutputVal(24'hFF00FF, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (FF00FF)");
+        // #((threshold+1)*CLK_PERIOD)
+        // `testLightOutputVal(24'hFFFF00, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (FFFF00)");
+        // #((threshold+1)*CLK_PERIOD)
+        // `testLightOutputVal(24'h0000FF, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (0000FF)");
+        // #((threshold+1)*CLK_PERIOD)
         
         button = 0;
         //Wait for change to come into effect
