@@ -51,7 +51,7 @@ module top(clk, rst_n, sysOn, sleep, atmospheric,
     
     output heating;
     output cooling;
-    output reg [23:0] lightsOut;
+    output wire [23:0] lightsOut;
     
 
     /* clock infrastructure, do not modify */
@@ -84,9 +84,9 @@ module top(clk, rst_n, sysOn, sleep, atmospheric,
         .clk(clk),
         .button(button),
         .sel(lightsSel),
-        .light(lightsIntermediate),
+        .light(lightsOut),
         .threshold(threshold),
-        .sysOn(sysOn),
+        .sysOn(sysOn && ~sleep),
         .dimLights(atmospheric)
     );
 

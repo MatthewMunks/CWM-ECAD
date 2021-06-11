@@ -195,9 +195,45 @@ module top_tb ();
         `encapsulatingLightsTesting
 
         `rudimentaryHeaterTests
-
+        
+        //with atmospheric at 1, we want the lights to be in a dimmed state. This tests that.
         atmospheric = 1;
-        `encapsulatingLightsTesting
+        rst = 1;
+        button = 0;
+        #50;
+        rst = 0;
+        #50;
+        button = 1;
+        #((threshold+1)*CLK_PERIOD)                                                                                                                         
+        `testLightOutputVal(24'h008800, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (00FF00)");       
+        #((threshold+1)*CLK_PERIOD)                                                                                                                         
+        `testLightOutputVal(24'h008888, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (00FFFF)");       
+        #((threshold+1)*CLK_PERIOD)                                                                                                                         
+        `testLightOutputVal(24'h880000, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (FF0000)");       
+        #((threshold+1)*CLK_PERIOD)                                                                                                                         
+        `testLightOutputVal(24'h880088, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (FF00FF)");       
+        #((threshold+1)*CLK_PERIOD)                                                                                                                         
+        `testLightOutputVal(24'h888800, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (FFFF00)");       
+        #((threshold+1)*CLK_PERIOD)                                                                                                                         
+        `testLightOutputVal(24'h000088, "We're moving through the sequence. The colours should be changing as per the sequence. Should be (0000FF)");
+        
+        
+        sleep = 1;
+        #50;
+        `testLightOutputVal(0, "We're sleeping. The lights should be off");
+        `testHeaterState(25, COOLING, "We're sleeping but the air con should still be in operation");
+        `testHeaterState(20, IDLE, "We're sleeping but the air con should still be in operation");
+        `testHeaterState(17, HEATING, "We're sleeping but the air con should still be in operation"); 
+        #50
+        
+        sysOn = 0;
+        #50
+        `testLightOutputVal(0, "The system is off. The lights should be off");
+        `testHeaterState(25, IDLE, "The system is off. We should not be heating or cooling!");
+        `testHeaterState(20, IDLE, "The system is off. We should not be heating or cooling!");
+        `testHeaterState(17, IDLE, "The system is off. We should not be heating or cooling!");
+        #50 
+
                       
         
         //Finish test, check for success

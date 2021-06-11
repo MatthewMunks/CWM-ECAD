@@ -47,12 +47,15 @@ module colourConverter (clk, colour, enable, rgb, dimLights);
 
     wire [23:0] lookupOut;
 
-    always @(posedge clk) begin        
+    always @(posedge clk) begin       
+//        rgb <= lookupOut; 
         if (dimLights == 1) begin
             `dimRGB
+//            rgb <= 15;
         end else begin
             rgb <= lookupOut;
         end
+        
     end
     
     ColourLookUp your_instance_name (
